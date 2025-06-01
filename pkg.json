@@ -1,0 +1,25 @@
+{
+  "name": "rocketoo",
+  "version": "1.0.0",
+  "bin": "./bin/rocketoo.js",
+  "pkg": {
+    "targets": [
+      "node18-linux-x64",
+      "node18-linux-arm64",
+      "node18-macos-x64",
+      "node18-macos-arm64",
+      "node18-win-x64"
+    ],
+    "outputPath": "dist",
+    "assets": [
+      "node_modules/yauzl/lib/**/*",
+      "node_modules/archiver/lib/**/*",
+      "node_modules/chalk/package.json",
+      "node_modules/inquirer/lib/**/*"
+    ],
+    "scripts": [
+      "src/**/*.js",
+      "bin/**/*.js"
+    ]
+  }
+} 

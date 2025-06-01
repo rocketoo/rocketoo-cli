@@ -1,0 +1,67 @@
+{
+  "name": "@rocketoo/cli",
+  "version": "1.0.0",
+  "description": "Rocketoo CLI pro správu šablon e-shopu",
+  "main": "bin/rocketoo.js",
+  "bin": {
+    "rocketoo": "./bin/rocketoo.js"
+  },
+  "scripts": {
+    "start": "node bin/rocketoo.js",
+    "test": "jest",
+    "build": "pkg . --out-path dist/",
+    "build:linux": "pkg . --targets node18-linux-x64 --out-path dist/",
+    "build:macos": "pkg . --targets node18-macos-x64 --out-path dist/",
+    "build:windows": "pkg . --targets node18-win-x64 --out-path dist/",
+    "dev": "nodemon bin/rocketoo.js",
+    "lint": "eslint src/ bin/ --fix || true",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "keywords": [
+    "rocketoo",
+    "cli",
+    "theme",
+    "e-commerce",
+    "october-cms"
+  ],
+  "author": "Rocketoo s.r.o. <dev@rocketoo.cz>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "axios": "^1.5.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "form-data": "^4.0.0",
+    "fs-extra": "^11.1.1",
+    "archiver": "^6.0.1",
+    "yauzl": "^2.10.0",
+    "yaml": "^2.3.2",
+    "glob": "^10.3.4",
+    "mime-types": "^2.1.35",
+    "node-watch": "^0.7.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "pkg": "^5.8.1",
+    "eslint": "^8.50.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rocketoo/cli.git"
+  },
+  "homepage": "https://rocketoo.cz/cli",
+  "bugs": {
+    "url": "https://github.com/rocketoo/cli/issues"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
+}
