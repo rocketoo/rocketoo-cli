@@ -12,7 +12,7 @@ describe('Rocketoo CLI', () => {
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
     
     expect(packageJson.name).toBe('@rocketoo/cli');
-    expect(packageJson.version).toBe('1.0.0');
+    expect(packageJson.version).toBe('1.0.1');
     expect(packageJson.bin.rocketoo).toBe('./bin/rocketoo.js');
   });
 });
