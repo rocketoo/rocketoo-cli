@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocketoo CLI - Nástroj pro správu šablon e-shopu</title>
+    <meta name="description" content="Oficiální CLI nástroj pro správu šablon Rocketoo e-shopů. Nahrávejte, publikujte a spravujte své šablony snadno a rychle.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rocketoo CLI - Nástroj pro správu šablon e-shopu">
+    <meta property="og:description" content="Oficiální CLI nástroj pro správu šablon Rocketoo e-shopů">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rocketoo.cz/cli">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav a:hover {
+            color: #667eea;
+        }
+        
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .install-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section h3 {
+            color: #444;
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .command-table th,
+        .command-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .command-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .command-table code {
+            background: #f1f3f4;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+        
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+        }
+        
+        .copy-btn:hover {
+            background: #5a67d8;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🚀 Rocketoo CLI</div>
+                <nav class="nav">
+                    <a href="#instalace">Instalace</a>
+                    <a href="#prikazy">Příkazy</a>
+                    <a href="#priklady">Příklady</a>
+                    <a href="#api">API</a>
+                    <a href="https://github.com/rocketoo/rocketoo-cli">GitHub</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Rocketoo CLI</h1>
+            <p>Oficiální nástroj pro správu šablon Rocketoo e-shopů</p>
+            <div class="install-box">
+                npm install -g @rocketoo/cli
+                <button class="copy-btn" onclick="copyToClipboard('npm install -g @rocketoo/cli')">Kopírovat</button>
+            </div>
+            <div>
+                <a href="#instalace" class="btn">Začít</a>
+                <a href="https://github.com/rocketoo/rocketoo-cli" class="btn">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="content">
+            <section id="instalace" class="section">
+                <h2>Instalace</h2>
+                
+                <h3>Požadavky</h3>
+                <ul>
+                    <li>Node.js 16.0.0 nebo vyšší</li>
+                    <li>npm nebo yarn</li>
+                    <li>Přístup k internetu pro stahování balíčků</li>
+                </ul>
+
+                <h3>Globální instalace</h3>
+                <div class="code-block">npm install -g @rocketoo/cli</div>
+
+                <h3>Ověření instalace</h3>
+                <div class="code-block">rocketoo --version</div>
+
+                <div class="alert alert-info">
+                    <strong>Tip:</strong> Po instalaci bude k dispozici globální příkaz <code>rocketoo</code>
+                </div>
+            </section>
+
+            <section id="konfigurace" class="section">
+                <h2>Konfigurace</h2>
+                
+                <h3>První nastavení</h3>
+                <div class="code-block"># Přihlášení k API
+rocketoo auth login
+
+# Nastavení URL vašeho e-shopu
+rocketoo config set api_url "https://vas-eshop.cz"
+
+# Zobrazení všech nastavení
+rocketoo config list</div>
+
+                <h3>Konfigurační soubor</h3>
+                <p>CLI ukládá konfiguraci do <code>~/.rocketoo/config.json</code></p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔐 Bezpečnost</h4>
+                        <p>API klíče jsou šifrovány a bezpečně uloženy lokálně</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ Rychlost</h4>
+                        <p>Optimalizované nahrávání pouze změněných souborů</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🛡️ Validace</h4>
+                        <p>Automatická kontrola bezpečnosti a kvality šablon</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="prikazy" class="section">
+                <h2>Dostupné příkazy</h2>
+
+                <h3>Autentifikace</h3>
+                <table class="command-table">
+                    <thead>
+                        <tr>
+                            <th>Příkaz</th>
+                            <th>Popis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>rocketoo auth login</code></td>
+                            <td>Přihlášení pomocí API klíče</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo auth logout</code></td>
+                            <td>Odhlášení a smazání uložených tokenů</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo auth status</code></td>
+                            <td>Zobrazení stavu přihlášení</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Správa šablon</h3>
+                <table class="command-table">
+                    <thead>
+                        <tr>
+                            <th>Příkaz</th>
+                            <th>Popis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>rocketoo theme push &lt;název&gt;</code></td>
+                            <td>Nahraje šablonu na server</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo theme publish &lt;název&gt;</code></td>
+                            <td>Aktivuje šablonu jako aktuální</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo theme list</code></td>
+                            <td>Zobrazí seznam všech šablon</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo theme current</code></td>
+                            <td>Zobrazí aktuálně aktivní šablonu</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo theme versions &lt;název&gt;</code></td>
+                            <td>Zobrazí verze šablony</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo theme validate &lt;název&gt;</code></td>
+                            <td>Validuje šablonu lokálně</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Konfigurace</h3>
+                <table class="command-table">
+                    <thead>
+                        <tr>
+                            <th>Příkaz</th>
+                            <th>Popis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>rocketoo config set &lt;klíč&gt; &lt;hodnota&gt;</code></td>
+                            <td>Nastaví konfigurační hodnotu</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo config get &lt;klíč&gt;</code></td>
+                            <td>Zobrazí konfigurační hodnotu</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo config list</code></td>
+                            <td>Zobrazí všechna nastavení</td>
+                        </tr>
+                        <tr>
+                            <td><code>rocketoo config reset</code></td>
+                            <td>Resetuje konfiguraci na výchozí</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="priklady" class="section">
+                <h2>Příklady použití</h2>
+
+                <h3>Kompletní workflow</h3>
+                <div class="code-block"># 1. Nastavení CLI
+rocketoo auth login
+rocketoo config set api_url "https://muj-eshop.cz"
+
+# 2. Validace šablony před nahráním
+rocketoo theme validate ./moje-sablona
+
+# 3. Nahrání nové verze šablony
+rocketoo theme push moje-sablona --path ./moje-sablona
+
+# 4. Aktivace šablony
+rocketoo theme publish moje-sablona
+
+# 5. Ověření stavu
+rocketoo theme current</div>
+
+                <h3>Pokročilé možnosti</h3>
+                <div class="code-block"># Nahrání s popisem
+rocketoo theme push moje-sablona --description "Oprava responzivního designu"
+
+# Nahrání pouze určitých souborů
+rocketoo theme push moje-sablona --include "*.html,*.css"
+
+# Debug režim
+rocketoo --debug theme push moje-sablona
+
+# Práce s verzemi
+rocketoo theme versions moje-sablona
+rocketoo theme publish moje-sablona --version 1.2.0</div>
+
+                <h3>Struktura šablony</h3>
+                <div class="code-block">moje-sablona/
+├── theme.yaml          # Metadata šablony
+├── layouts/           # Layouty stránek
+│   ├── default.htm
+│   └── product.htm
+├── pages/            # Stránky
+│   ├── home.htm
+│   └── contact.htm
+├── partials/         # Částečné šablony
+│   ├── header.htm
+│   └── footer.htm
+├── content/          # Statický obsah
+├── assets/           # CSS, JS, obrázky
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── README.md         # Dokumentace šablony</div>
+
+                <div class="alert alert-warning">
+                    <strong>Upozornění:</strong> Soubor <code>theme.yaml</code> je povinný a musí obsahovat metadata šablony.
+                </div>
+            </section>
+
+            <section id="api" class="section">
+                <h2>API a integrace</h2>
+
+                <h3>Serverová část</h3>
+                <p>Pro fungování CLI je potřeba nainstalovat Rocketoo CLI plugin v October CMS:</p>
+
+                <div class="code-block"># Instalace přes Composer
+composer require rocketoo/cli-plugin
+
+# Spuštění migrací
+php artisan october:migrate</div>
+
+                <h3>API Endpoints</h3>
+                <table class="command-table">
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>Metoda</th>
+                            <th>Popis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>/api/rocketoo/themes</code></td>
+                            <td>GET</td>
+                            <td>Seznam všech šablon</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/rocketoo/themes/upload</code></td>
+                            <td>POST</td>
+                            <td>Nahrání šablony</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/rocketoo/themes/publish</code></td>
+                            <td>POST</td>
+                            <td>Aktivace šablony</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/rocketoo/themes/current</code></td>
+                            <td>GET</td>
+                            <td>Aktuální aktivní šablona</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Autentifikace</h3>
+                <p>API používá Bearer token autentifikaci:</p>
+                <div class="code-block">Authorization: Bearer váš-api-klíč</div>
+            </section>
+
+            <section id="troubleshooting" class="section">
+                <h2>Řešení problémů</h2>
+
+                <h3>Časté chyby</h3>
+                
+                <h4>401 Unauthorized</h4>
+                <div class="code-block"># Ověřte přihlášení
+rocketoo auth status
+
+# Znovu se přihlaste
+rocketoo auth login</div>
+
+                <h4>Chyby validace</h4>
+                <div class="code-block"># Spusťte lokální validaci
+rocketoo theme validate ./moje-sablona --verbose
+
+# Zkontrolujte theme.yaml soubor
+cat ./moje-sablona/theme.yaml</div>
+
+                <h4>Problémy s připojením</h4>
+                <div class="code-block"># Zkontrolujte nastavení API URL
+rocketoo config get api_url
+
+# Test připojení
+curl -H "Authorization: Bearer váš-token" https://vas-eshop.cz/api/rocketoo/themes</div>
+
+                <div class="alert alert-info">
+                    <strong>Nápověda:</strong> Pro detailní ladění použijte přepínač <code>--debug</code>
+                </div>
+            </section>
+
+            <section id="podpora" class="section">
+                <h2>Podpora a komunita</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>📚 Dokumentace</h4>
+                        <p><a href="https://github.com/rocketoo/rocketoo-cli/wiki">Wiki na GitHubu</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🐛 Hlášení chyb</h4>
+                        <p><a href="https://github.com/rocketoo/rocketoo-cli/issues">GitHub Issues</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>💬 Komunita</h4>
+                        <p><a href="mailto:dev@rocketoo.cz">dev@rocketoo.cz</a></p>
+                    </div>
+                </div>
+
+                <h3>Přispívání</h3>
+                <p>Uvítáme vaše příspěvky! Podívejte se na naš <a href="https://github.com/rocketoo/rocketoo-cli/blob/main/CONTRIBUTING.md">průvodce přispíváním</a>.</p>
+
+                <div class="code-block"># Fork a clone
+git clone https://github.com/your-username/rocketoo-cli.git
+cd rocketoo-cli
+
+# Instalace závislostí
+npm install
+
+# Spuštění testů
+npm test</div>
+            </section>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Rocketoo s.r.o. | MIT License | <a href="https://rocketoo.cz" style="color: white;">rocketoo.cz</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Zobrazení potvrzení
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Zkopírováno!';
+                btn.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+
+        // Přidání copy tlačítek ke všem code-block elementům
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            codeBlocks.forEach(block => {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = 'Kopírovat';
+                copyBtn.style.float = 'right';
+                copyBtn.style.marginTop = '-0.5rem';
+                
+                copyBtn.onclick = () => copyToClipboard(block.textContent.trim());
+                block.appendChild(copyBtn);
+            });
+        });
+
+        // Smooth scroll pro navigaci
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
