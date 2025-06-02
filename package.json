@@ -1,6 +1,6 @@
 {
   "name": "@rocketoo/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rocketoo CLI pro správu šablon e-shopu",
   "main": "bin/rocketoo.js",
   "bin": {
