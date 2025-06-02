@@ -240,8 +240,7 @@ rocketoo theme push my-theme          # Hledá v themes/my-theme
 
 ## 📞 Podpora
 
-- 📚 [Dokumentace](https://rocketoo.cz/docs/cli)
-- 💬 [Forum](https://forum.rocketoo.cz)
+- 📚 [Dokumentace](https://rocketoomax.cz/cli)
 - 📧 [Podpora](mailto:podpora@rocketoo.cz)
 - 🐛 [Hlášení chyb](https://github.com/rocketoo/cli/issues)
 

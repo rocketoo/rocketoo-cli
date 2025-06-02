@@ -38,7 +38,7 @@ program.on('--help', () => {
   console.log('  $ rocketoo theme publish my-theme');
   console.log('  $ rocketoo config get api_url');
   console.log('');
-  console.log('Více informací na: https://rocketoo.cz/cli');
+  console.log('Více informací na: https://rocketoomax.cz/cli');
 });
 
 // Error handling

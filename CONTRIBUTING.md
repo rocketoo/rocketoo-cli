@@ -188,7 +188,7 @@ Všechny PR procházejí code review:
 ## 🤝 Komunita
 
 - 💬 [Diskuse na GitHubu](https://github.com/rocketoo/cli/discussions)
-- 📧 Email: dev@rocketoo.cz
+- 📧 Email: team@rocketoo.cz
 - 🐛 [Issues](https://github.com/rocketoo/cli/issues)
 
 ## 📄 Licence
